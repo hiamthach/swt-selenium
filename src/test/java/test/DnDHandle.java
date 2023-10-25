@@ -1,4 +1,4 @@
-package element;
+package test;
 
 import driver.driverFactory;
 import element.ElementController;
@@ -25,7 +25,7 @@ public class DnDHandle {
         } catch (AWTException e) {
             e.printStackTrace();
         }
-        //7. Quit browser session
+        // 7. Quit browser session
         driver.quit();
     }
 }
