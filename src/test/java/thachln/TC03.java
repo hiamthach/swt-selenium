@@ -60,19 +60,14 @@ public class TC03 {
 
       // Step 5
       WebElement errorMessage = driver.findElement(By.cssSelector(".error-msg ul:nth-child(1) > li > span"));
-      if (!errorMessage.getText().equals("The requested quantity for \"Sony Xperia\" is not available.")) {
-        throw new Exception("Error message is not match");
-      }
+      Assert.assertEquals(errorMessage.getText(), "The requested quantity for \"Sony Xperia\" is not available.");
 
       // Step 6
       driver.findElement(By.cssSelector("#empty_cart_button")).click();
 
       // Step 7
       WebElement emptyCartMessage = driver.findElement(By.cssSelector(".page-title > h1"));
-      if (!emptyCartMessage.getText().equals("SHOPPING CART IS EMPTY")) {
-        throw new Exception("Cart is not empty");
-      }
-
+      Assert.assertEquals(emptyCartMessage.getText(), "SHOPPING CART IS EMPTY");
       // screenshot the result
       Utils.takeScreenshot(driver, "TC03.png");
       System.out.println("Test case TC03 is passed");

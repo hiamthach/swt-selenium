@@ -33,14 +33,19 @@ import org.testng.Assert;
 
 import org.testng.annotations.Test;
 
-import bom.Register;
 import driver.driverFactory;
+import pom.Register;
 
 public class TC05 {
   @Test
   public void testTC05() {
 
     WebDriver driver = driverFactory.getChromeDriver();
+    String firstName = "Thach";
+    String middleName = "Ngoc";
+    String lastName = "Le";
+    String email = "thachln" + System.currentTimeMillis() + "@gmail.com";
+    String password = "123456789";
 
     try {
       // Step 1
@@ -55,21 +60,19 @@ public class TC05 {
       driver.findElement(By.cssSelector(".new-users .button")).click();
 
       Register register = new Register(driver);
-      register.inputFirstName("Thach");
-      register.inputMiddleName("Ngoc");
-      register.inputLastName("Le");
-      register.inputEmail("thachln" + System.currentTimeMillis() + "@gmail.com");
-      register.inputPassword("123456789");
-      register.inputConfirmPassword("123456789");
+      register.inputFirstName(firstName);
+      register.inputMiddleName(middleName);
+      register.inputLastName(lastName);
+      register.inputEmail(email);
+      register.inputPassword(password);
+      register.inputConfirmPassword(password);
 
       // Step 4
       driver.findElement(By.cssSelector(".buttons-set .button[title='Register']")).click();
 
       // Step 5
       WebElement successMessage = driver.findElement(By.cssSelector(".success-msg span"));
-      if (!successMessage.getText().equals("Thank you for registering with Main Website Store.")) {
-        throw new Exception("The registration is not successful");
-      }
+      Assert.assertEquals(successMessage.getText(), "Thank you for registering with Main Website Store.");
 
       // Step 6
       driver.findElement(By.linkText("TV")).click();
@@ -82,7 +85,7 @@ public class TC05 {
 
       // Step 9
       WebElement emailInput = driver.findElement(By.cssSelector("#email_address"));
-      emailInput.sendKeys("thachsdafsf@gmail.com");
+      emailInput.sendKeys(email);
       WebElement messageInput = driver.findElement(By.cssSelector("#message"));
       messageInput.sendKeys("Hello");
 
@@ -90,9 +93,7 @@ public class TC05 {
 
       // Step 10
       String successMessageText = driver.findElement(By.cssSelector(".success-msg span")).getText();
-      if (!successMessageText.equals("Your Wishlist has been shared.")) {
-        throw new Exception("The wishlist is not shared");
-      }
+      Assert.assertEquals(successMessageText, "Your Wishlist has been shared.");
 
       // screenshot the result
       Utils.takeScreenshot(driver, "TC05.png");

@@ -37,8 +37,7 @@ public class TC01 {
       String pageTitle = driver.findElement(By.tagName("h2")).getText();
 
       // Step 2 if not match throw exception
-      if (!pageTitle.equals("THIS IS DEMO SITE FOR   "))
-        throw new Exception("Page title is not match");
+      Assert.assertEquals(pageTitle, "THIS IS DEMO SITE FOR   ");
 
       // Step 3
       driver.findElement(By.linkText("MOBILE")).click();

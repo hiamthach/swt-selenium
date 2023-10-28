@@ -61,9 +61,7 @@ public class TC04 {
 
       // Step 5
       WebElement popup = driver.findElement(By.cssSelector(".page-title h1"));
-      if (!popup.getText().equals("COMPARE PRODUCTS")) {
-        throw new Exception("The popup window is not displayed");
-      }
+      Assert.assertEquals(popup.getText(), "COMPARE PRODUCTS");
 
       // screenshot the result
       Utils.takeScreenshot(driver, "TC04.png");

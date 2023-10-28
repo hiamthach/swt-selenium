@@ -51,10 +51,8 @@ public class TC02 {
       // Step 5
       String cost2 = driver.findElement(By.cssSelector(".price")).getText();
       // Step 6
+      Assert.assertEquals(cost, cost2);
 
-      if (!cost.equals(cost2)) {
-        throw new Exception("Product value in list and details page are NOT equal");
-      }
       // screenshot the result
       Utils.takeScreenshot(driver, "TC02.png");
       System.out.println("Test case TC02 is passed");
