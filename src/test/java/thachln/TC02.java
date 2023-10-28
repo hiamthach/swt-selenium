@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 // Test Steps:
 
@@ -59,6 +60,7 @@ public class TC02 {
       System.out.println("Test case TC02 is passed");
     } catch (Exception e) {
       e.printStackTrace();
+      Assert.fail("Test case TC02 is failed:" + e.getMessage());
     }
 
     driver.quit();
