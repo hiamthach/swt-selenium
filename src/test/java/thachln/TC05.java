@@ -44,7 +44,7 @@ public class TC05 {
     String firstName = "Thach";
     String middleName = "Ngoc";
     String lastName = "Le";
-    String email = "thachln" + System.currentTimeMillis() + "@gmail.com";
+    String email = "thachln@gmail.com";
     String password = "123456789";
 
     try {
