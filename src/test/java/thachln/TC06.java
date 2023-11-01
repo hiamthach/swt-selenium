@@ -65,42 +65,16 @@ public class TC06 {
     String password = "123456789";
     String address = "123 Phan Van Tri";
     String city = "Ho Chi Minh City";
-    String state = "State";
+    String state = "Georgia";
     String zip = "123456";
-    String country = "Vietnam";
+    String country = "United States";
     String telephone = "1234567890";
 
     try {
+      WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+      // Step 1 - 7
       PurchaseProduct purchaseProduct = new PurchaseProduct(driver, email, password);
       purchaseProduct.action();
-      // // Step 1
-      // driver.get("http://live.techpanda.org/");
-      WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-      // wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.tagName("h2"))));
-
-      // // Step 2
-      // driver.findElement(By.cssSelector(".links:nth-child(4) .first > a")).click();
-
-      // // Step 3
-      // LoginPage login = new LoginPage(driver);
-      // login.inputEmail(email);
-      // login.inputPassword(password);
-      // driver.findElement(By.cssSelector("#send2")).click();
-
-      // // Step 4
-      // driver.findElement(By.cssSelector(".block-content > ul > li:nth-child(8) >
-      // a")).click();
-
-      // // Step 5
-      // driver.findElement(By.cssSelector(".button[title='Add to Cart']")).click();
-
-      // // Step 6
-      // driver.findElement(By.cssSelector("#country")).sendKeys(country);
-      // driver.findElement(By.cssSelector("#region")).sendKeys(state);
-      // driver.findElement(By.cssSelector("#postcode")).sendKeys(zip);
-
-      // // Step 7
-      // driver.findElement(By.cssSelector(".buttons-set span > span")).click();
 
       // Step 8
       WebElement shippingCost = driver.findElement(By.cssSelector(".a-right .price"));
@@ -133,6 +107,7 @@ public class TC06 {
       billingInfo.inputCountry(country);
       billingInfo.inputTelephone(telephone);
 
+      driver.findElement(By.cssSelector("#billing\\:use_for_shipping_no")).click();
       driver.findElement(By.cssSelector("#billing-buttons-container .button")).click();
 
       // Step 12b
@@ -161,7 +136,7 @@ public class TC06 {
       wait.until(ExpectedConditions
           .visibilityOf(driver.findElement(By.cssSelector("#checkout-step-shipping_method"))));
 
-      driver.findElement(By.cssSelector("#opc-shipping_method #shipping-method-buttons-container button")).click();
+      driver.findElement(By.cssSelector("#shipping-method-buttons-container button")).click();
 
       // Step 14
       // Wait for the page to load

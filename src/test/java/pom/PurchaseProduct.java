@@ -4,7 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -33,7 +32,7 @@ public class PurchaseProduct {
   int posCode = 73100;
 
   By buttonInput = By.cssSelector(
-      "body.wishlist-index-index.customer-account:nth-child(2) div.wrapper:nth-child(1) div.page:nth-child(2) div.main-container.col2-left-layout div.main div.col-main:nth-child(2) div.my-account div.my-wishlist div.fieldset table.clean-table.linearize-table:nth-child(2) tbody:nth-child(2) tr.first.last.odd td.wishlist-cell4.customer-wishlist-item-cart div.cart-cell:nth-child(1) > button.button.btn-cart");
+      "#wishlist-table .first:nth-child(1) .button[title='Add to Cart']");
   String email;
   String password;
   WebDriver driver;
