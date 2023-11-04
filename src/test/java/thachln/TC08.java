@@ -18,43 +18,23 @@ import org.testng.Assert;
 
 // 3. Login in application using previously created credential
 
-// 4. Click on MY WISHLIST link
+// 4. Click on 'REORDER' link , change QTY & click Update
 
-// 5. In next page, Click ADD TO CART link
+// 5. Verify Grand Total is changed
 
-// 6. Enter general shipping country, state/province and zip for the shipping cost estimate
+// 6. Complete Billing & Shipping Information
 
-// 7. Click Estimate
-
-// 8. Verify Shipping cost generated
-
-// 9. Select Shipping Cost, Update Total
-
-// 10. Verify shipping cost is added to total
-
-// 11. Click "Proceed to Checkout"
-
-// 12a. Enter Billing Information, and click Continue
-
-// 12b. Enter Shipping Information, and click Continue
-
-// 13. In Shipping Method, Click Continue
-
-// 14. In Payment Information select 'Check/Money Order' radio button. Click Continue
-
-// 15. Click 'PLACE ORDER' button
-
-// 16. Verify Oder is generated. Note the order number
+// 7. Verify order is generated and note the order number
 
 import org.testng.annotations.Test;
 
 import driver.driverFactory;
 import pom.CheckoutPage;
-import pom.PurchaseProduct;
+import pom.LoginPage;
 
-public class TC06 {
+public class TC08 {
   @Test
-  public void testTC06() {
+  public void testTC08() {
 
     WebDriver driver = driverFactory.getChromeDriver();
     String firstName = "Thach";
@@ -68,29 +48,49 @@ public class TC06 {
     String zip = "123456";
     String country = "United States";
     String telephone = "1234567890";
+    String qty = "20";
 
     try {
+      // Step 1
+      driver.get("http://live.techpanda.org/");
       WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-      // Step 1 - 7
-      PurchaseProduct purchaseProduct = new PurchaseProduct(driver, email, password);
-      purchaseProduct.action();
+      wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.tagName("h2"))));
 
-      // Step 8
-      WebElement shippingCost = driver.findElement(By.cssSelector(".a-right .price"));
-      System.out.println("Shipping cost: " + shippingCost.getText());
+      // Step 2
+      driver.findElement(By.cssSelector(".links:nth-child(4) .first > a")).click();
 
-      // Step 9
-      driver.findElement(By.cssSelector("#s_method_flatrate_flatrate")).click();
-      driver.findElement(By.cssSelector(".button[title='Update Total']")).click();
+      // Step 3
+      LoginPage loginPage = new LoginPage(driver);
+      loginPage.inputEmail(email);
+      loginPage.inputPassword(password);
 
-      // Step 10
-      WebElement total = driver.findElement(By.cssSelector(".a-right .price"));
-      System.out.println("Total: " + total.getText());
+      driver.findElement(By.cssSelector("#send2")).click();
 
-      // Step 11
+      // Step 4
+      driver.findElement(By.cssSelector("#my-orders-table .first:first-child .link-reorder")).click();
+      String grandTotalSelector = "#shopping-cart-totals-table tfoot .a-right:nth-child(2) .price";
+      String grandTotal = driver.findElement(By.cssSelector(grandTotalSelector)).getText();
+
+      WebElement qtyInput = driver
+          .findElement(By.cssSelector("#shopping-cart-table tbody .first:first-child .product-cart-actions .qty"));
+      qtyInput.clear();
+      qtyInput.sendKeys(qty);
+      driver
+          .findElement(
+              By.cssSelector("#shopping-cart-table tbody .first:first-child .product-cart-actions .btn-update"))
+          .click();
+
+      // Step 5
+      String newGrandTotal = driver.findElement(By.cssSelector(grandTotalSelector)).getText();
+
+      Assert.assertNotEquals(grandTotal, newGrandTotal);
+
+      System.out.println("Grand Total: " + grandTotal);
+
+      // Step 6
       driver.findElement(By.cssSelector(".button[title='Proceed to Checkout']")).click();
 
-      // Step 12a
+      // Step 7
       WebElement billingAddress = driver.findElement(By.cssSelector("#billing-address-select"));
       Select selectBillingAddress = new Select(billingAddress);
       selectBillingAddress.selectByVisibleText("New Address");
@@ -109,8 +109,6 @@ public class TC06 {
       driver.findElement(By.cssSelector("#billing\\:use_for_shipping_no")).click();
       driver.findElement(By.cssSelector("#billing-buttons-container .button")).click();
 
-      // Step 12b
-      // Click pop-up open
       wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.cssSelector("#shipping-address-select"))));
 
       WebElement shippingAddress = driver.findElement(By.cssSelector("#shipping-address-select"));
@@ -130,27 +128,22 @@ public class TC06 {
 
       driver.findElement(By.cssSelector("#shipping-buttons-container .button")).click();
 
-      // Step 13
-      // Wait for the page to load
       wait.until(ExpectedConditions
           .visibilityOf(driver.findElement(By.cssSelector("#checkout-step-shipping_method"))));
 
       driver.findElement(By.cssSelector("#shipping-method-buttons-container button")).click();
 
-      // Step 14
-      // Wait for the page to load
       wait.until(ExpectedConditions
           .visibilityOf(driver.findElement(By.cssSelector("#checkout-step-payment"))));
       driver.findElement(By.cssSelector("#checkout-step-payment #p_method_checkmo")).click();
       driver.findElement(By.cssSelector("#payment-buttons-container .button")).click();
 
-      // Step 15
-      // Wait for the page to load
       wait.until(ExpectedConditions
           .visibilityOf(driver.findElement(By.cssSelector("#checkout-step-review"))));
       driver.findElement(By.cssSelector("#checkout-step-review #review-buttons-container .button")).click();
 
-      // Step 16
+      // Step 8
+      // wait for the page navigating
       wait.until(ExpectedConditions.urlContains("success"));
 
       WebElement orderNumber = driver
@@ -158,11 +151,11 @@ public class TC06 {
       System.out.println("Order number: " + orderNumber.getText());
 
       // screenshot the result
-      Utils.takeScreenshot(driver, "TC06.png");
-      System.out.println("Test case TC06 is passed");
+      Utils.takeScreenshot(driver, "TC08.png");
+      System.out.println("Test case TC08 is passed");
     } catch (Exception e) {
       e.printStackTrace();
-      Assert.fail("Test case TC06 is failed:" + e.getMessage());
+      Assert.fail("Test case TC08 is failed:" + e.getMessage());
     }
 
     driver.quit();
